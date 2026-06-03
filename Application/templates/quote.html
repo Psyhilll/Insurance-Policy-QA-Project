@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}Get a Quote – SafeGuard Insurance{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h4 class="mb-1"><i class="bi bi-calculator me-2"></i>Get an Insurance Quote</h4>
+  <p class="mb-0 opacity-75">Fill in the details below to calculate your premium</p>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card p-4">
+      <form method="POST" id="quoteForm">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Policy Type <span class="text-danger">*</span></label>
+          <select name="policy_type" id="policy_type" class="form-select" required>
+            <option value="">-- Select Policy Type --</option>
+            <option value="Auto">Auto Insurance</option>
+            <option value="Health">Health Insurance</option>
+            <option value="Life">Life Insurance</option>
+            <option value="Home">Home Insurance</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Coverage Amount ($) <span class="text-danger">*</span></label>
+          <input type="number" name="coverage_amount" id="coverage_amount" class="form-control"
+                 placeholder="e.g. 100000" min="1000" step="1000" required/>
+          <div class="form-text">Enter the amount you want to be covered for</div>
+        </div>
+        <div class="mb-4">
+          <label class="form-label fw-semibold">Your Age <span class="text-danger">*</span></label>
+          <input type="number" name="age" id="age" class="form-control"
+                 placeholder="e.g. 30" min="18" max="100" required/>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+          <i class="bi bi-calculator me-2"></i>Calculate Quote
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    {% if quote_result %}
+    <div class="card p-4 border-success">
+      <div class="text-center mb-3">
+        <i class="bi bi-check-circle-fill text-success" style="font-size:3rem"></i>
+        <h4 class="mt-2 fw-bold">Your Quote is Ready!</h4>
+      </div>
+      <table class="table table-borderless">
+        <tr><td class="text-muted">Policy Type</td><td class="fw-semibold">{{ quote_result.policy_type }}</td></tr>
+        <tr><td class="text-muted">Coverage Amount</td><td class="fw-semibold">${{ "%.2f"|format(quote_result.coverage) }}</td></tr>
+        <tr><td class="text-muted">Your Age</td><td class="fw-semibold">{{ quote_result.age }} years</td></tr>
+        <tr class="table-success"><td class="fw-bold">Monthly Premium</td><td class="fw-bold fs-5">${{ "%.2f"|format(quote_result.premium) }}</td></tr>
+      </table>
+      <a href="{{ url_for('purchase', quote_id=quote_result.quote_id) }}"
+         class="btn btn-success w-100 py-2 fw-semibold">
+        <i class="bi bi-cart-check me-2"></i>Purchase This Policy
+      </a>
+    </div>
+    {% else %}
+    <div class="card p-4 bg-light">
+      <h6 class="fw-semibold mb-3"><i class="bi bi-info-circle me-2 text-primary"></i>How Premiums Are Calculated</h6>
+      <table class="table table-sm">
+        <thead><tr><th>Policy Type</th><th>Base Rate</th></tr></thead>
+        <tbody>
+          <tr><td>Auto</td><td>3% of coverage</td></tr>
+          <tr><td>Health</td><td>5% of coverage</td></tr>
+          <tr><td>Life</td><td>2% of coverage</td></tr>
+          <tr><td>Home</td><td>1% of coverage</td></tr>
+        </tbody>
+      </table>
+      <p class="text-muted small">Age factor: +1% per year above 25</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

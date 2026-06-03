@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+*.egg-info/
+
+# Flask / SQLite database (don't commit the DB)
+Application/instance/
+*.db
+*.sqlite3
+
+# Playwright
+Automation/screenshots/*.png
+Automation/reports/*.html
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp

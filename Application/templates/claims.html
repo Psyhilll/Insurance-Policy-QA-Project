@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}Submit Claim – SafeGuard Insurance{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h4 class="mb-1"><i class="bi bi-clipboard-plus me-2"></i>Submit a Claim</h4>
+  <p class="mb-0 opacity-75">File a claim against one of your active policies</p>
+</div>
+<div class="row">
+  <div class="col-md-7">
+    <div class="card p-4">
+      {% if policies %}
+      <form method="POST">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Select Policy <span class="text-danger">*</span></label>
+          <select name="policy_id" id="policy_id" class="form-select" required>
+            <option value="">-- Select Active Policy --</option>
+            {% for p in policies %}
+            <option value="{{ p.policy_id }}" data-coverage="{{ p.coverage_amount }}">
+              #{{ p.policy_id }} – {{ p.policy_type }} (Coverage: ${{ "%.0f"|format(p.coverage_amount) }})
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Claim Amount ($) <span class="text-danger">*</span></label>
+          <input type="number" name="claim_amount" id="claim_amount" class="form-control"
+                 placeholder="Enter amount" min="1" step="0.01" required/>
+          <div class="form-text" id="coverageHint">Amount cannot exceed your policy coverage.</div>
+        </div>
+        <div class="mb-4">
+          <label class="form-label fw-semibold">Reason for Claim <span class="text-danger">*</span></label>
+          <textarea name="claim_reason" class="form-control" rows="4"
+                    placeholder="Describe what happened in detail (minimum 10 characters)..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success w-100 py-2 fw-semibold">
+          <i class="bi bi-send me-2"></i>Submit Claim
+        </button>
+      </form>
+      {% else %}
+      <div class="text-center py-4 text-muted">
+        <i class="bi bi-exclamation-circle fs-2 text-warning"></i>
+        <p class="mt-3">You have no active policies to claim against.</p>
+        <a href="{{ url_for('quote') }}" class="btn btn-primary">Get a Policy</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="col-md-5">
+    <div class="card p-4 bg-light">
+      <h6 class="fw-semibold"><i class="bi bi-info-circle me-2 text-primary"></i>Claim Guidelines</h6>
+      <ul class="mt-2 text-muted small ps-3">
+        <li>Claim must be filed within 30 days of incident</li>
+        <li>Claim amount cannot exceed your coverage limit</li>
+        <li>Provide a detailed description of the incident</li>
+        <li>Claims are typically processed within 5–7 business days</li>
+        <li>You will be notified of approval or rejection</li>
+      </ul>
+      <hr/>
+      <h6 class="fw-semibold">Claim Status Guide</h6>
+      <div class="d-flex gap-2 flex-column mt-2">
+        <span class="badge badge-pending rounded-pill px-3 py-2">Pending – Under review</span>
+        <span class="badge badge-approved rounded-pill px-3 py-2">Approved – Payment processing</span>
+        <span class="badge badge-rejected rounded-pill px-3 py-2">Rejected – Does not qualify</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block extra_js %}
+<script>
+  document.getElementById('policy_id').addEventListener('change', function() {
+    const opt = this.options[this.selectedIndex];
+    const cov = opt.dataset.coverage;
+    if (cov) {
+      document.getElementById('coverageHint').textContent = `Max claim: $${parseFloat(cov).toLocaleString()}`;
+      document.getElementById('claim_amount').max = cov;
+    }
+  });
+</script>
+{% endblock %}
+{% endblock %}

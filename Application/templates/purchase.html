@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Purchase Policy – SafeGuard Insurance{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h4 class="mb-1"><i class="bi bi-cart-check me-2"></i>Purchase Policy</h4>
+  <p class="mb-0 opacity-75">Confirm your policy details and set your coverage period</p>
+</div>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card p-4">
+      <h6 class="fw-semibold mb-3">Quote Summary</h6>
+      <div class="bg-light rounded p-3 mb-4">
+        <div class="row text-center">
+          <div class="col"><div class="text-muted small">Type</div><div class="fw-bold">{{ quote.policy_type }}</div></div>
+          <div class="col"><div class="text-muted small">Coverage</div><div class="fw-bold">${{ "%.0f"|format(quote.coverage_amount) }}</div></div>
+          <div class="col"><div class="text-muted small">Monthly Premium</div><div class="fw-bold text-success">${{ "%.2f"|format(quote.quote_amount) }}</div></div>
+        </div>
+      </div>
+      <form method="POST">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Start Date <span class="text-danger">*</span></label>
+          <input type="date" name="start_date" class="form-control" required/>
+        </div>
+        <div class="mb-4">
+          <label class="form-label fw-semibold">End Date <span class="text-danger">*</span></label>
+          <input type="date" name="end_date" class="form-control" required/>
+        </div>
+        <button type="submit" class="btn btn-success w-100 py-2 fw-semibold">
+          <i class="bi bi-check-circle me-2"></i>Confirm Purchase
+        </button>
+        <a href="{{ url_for('quote') }}" class="btn btn-outline-secondary w-100 mt-2">Back to Quotes</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
