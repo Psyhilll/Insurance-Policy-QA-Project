@@ -131,4 +131,4 @@ pytest tests/ --html=reports/report.html
 
 **Sahil** – QA Analyst | Winnipeg, MB  
 Open to QA Analyst / Associate QA / Software Tester roles  
-📧 [your email] | 🔗 [your LinkedIn]
+📧 mayur.dalvi123@gmail.com| 🔗 https://www.linkedin.com/in/sahildalvi/
