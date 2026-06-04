@@ -298,7 +298,7 @@ Insurance-Policy-QA-Project/
 
 Actively seeking QA Analyst / Associate QA / Software Tester roles.
 
-📧 [your email here] | 🔗 [your LinkedIn here]
+📧 mayur.dalvi123@gmail.com | 🔗 https://www.linkedin.com/in/sahildalvi/
 
 ---
 
